@@ -9,8 +9,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var posts_service_1 = require('../services/posts.service');
 var UserComponent = (function () {
-    function UserComponent() {
+    function UserComponent(postsService) {
+        var _this = this;
+        this.postsService = postsService;
         this.name = "Rajdeep";
         this.email = "rajrock38@gmail.com";
         this.address = {
@@ -20,6 +23,7 @@ var UserComponent = (function () {
         };
         this.hobbies = ["cycling", "cricket", "football"];
         this.showHobbies = true;
+        this.postsService.getPosts().subscribe(function (posts) { _this.posts = posts; });
     }
     UserComponent.prototype.toggleHobbies = function () {
         if (this.showHobbies == true) {
@@ -37,10 +41,12 @@ var UserComponent = (function () {
     };
     UserComponent = __decorate([
         core_1.Component({
+            moduleId: module.id,
             selector: 'user',
-            template: "\n  <h1> {{name}}</h1>\n  <p><strong>Email address:</strong>{{email}}</p>\n  <p><strong>Address: </strong>{{address.street}}<br>{{address.city}}<br>{{address.state}}</p>\n  <button (click)=\"toggleHobbies()\">{{showHobbies ? \"Hide Hobbies\" : \"Show Hobbies\"}}</button>\n  <div *ngIf=\"showHobbies\">\n  <h3> My Hobbies</h3>\n  <ul>\n        <li *ngFor=\"let hobby of hobbies;let i = index\">\n                {{hobby}} <button (click)=\"deleteHobby(i)\">X</button>\n        </li>\n  </ul>\n \n  <form (submit)=\"addHobby(hobby.value);false\">\n  <label>Add Hobey:</label><br/>\n  <input type=\"text\" #hobby/>\n  </form>\n   </div>\n  <hr/>\n\n  <h3>Edit User</h3>\n  <form>\n  <label>Name:</label><br>\n  <input type=\"text\" name=\"name\" [(ngModel)]=\"name\"/><br>\n  <label>Email:</label><br>\n <input type=\"text\" name=\"email\" [(ngModel)]=\"email\"/><br>\n  <label>Address:</label><br>\n  <input type=\"text\" name=\"address.street\" [(ngModel)]=\"address.street\"/><br>\n  <label>City:</label><br>\n <input type=\"text\" name=\"address.city\" [(ngModel)]=\"address.city\"/><br>\n   <label>State:</label><br>\n <input type=\"text\" name=\"address.state\" [(ngModel)]=\"address.state\"/>\n  </form>\n  ",
+            templateUrl: 'user.component.html',
+            providers: [posts_service_1.PostsService]
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [posts_service_1.PostsService])
     ], UserComponent);
     return UserComponent;
 }());

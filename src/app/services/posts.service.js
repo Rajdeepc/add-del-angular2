@@ -8,18 +8,23 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var AppComponent = (function () {
-    function AppComponent() {
+var core_1 = require("@angular/core");
+var http_1 = require("@angular/http");
+require('rxjs/add/operator/map');
+var PostsService = (function () {
+    function PostsService(http) {
+        this.http = http;
+        console.log("posts service initialized");
     }
-    AppComponent = __decorate([
-        core_1.Component({
-            selector: 'my-app',
-            template: "\n    <ul>\n        <li><a routerLink=\"/\">Home</a></li>\n        <li><a routerLink=\"/about\">About</a></li>\n    </ul>\n  <router-outlet></router-outlet>",
-        }), 
-        __metadata('design:paramtypes', [])
-    ], AppComponent);
-    return AppComponent;
+    PostsService.prototype.getPosts = function () {
+        return this.http.get('https://jsonplaceholder.typicode.com/posts')
+            .map(function (res) { return res.json(); });
+    };
+    PostsService = __decorate([
+        core_1.Injectable(), 
+        __metadata('design:paramtypes', [http_1.Http])
+    ], PostsService);
+    return PostsService;
 }());
-exports.AppComponent = AppComponent;
-//# sourceMappingURL=app.component.js.map
+exports.PostsService = PostsService;
+//# sourceMappingURL=posts.service.js.map
